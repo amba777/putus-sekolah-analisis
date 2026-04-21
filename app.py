@@ -51,18 +51,11 @@ st.markdown("""
     text-transform: uppercase;
 }
 
-[data-testid="stSidebar"] .stSelectbox div[data-baseweb="select"] {
-    background-color: rgba(255,255,255,0.08);
-    border-radius: 10px;
-    border: 1px solid rgba(255,215,0,0.3);
-}
-
 .main-header {
     background: linear-gradient(135deg, #1a1f2e 0%, #0f1422 50%, #1a1f2e 100%);
     padding: 2rem 2.5rem;
     border-radius: 20px;
     margin-bottom: 2rem;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     border: 1px solid rgba(255,215,0,0.15);
 }
 
@@ -94,7 +87,6 @@ st.markdown("""
 .metric-card:hover {
     transform: translateY(-3px);
     border-color: rgba(255,215,0,0.4);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
 
 .metric-value {
@@ -111,7 +103,6 @@ st.markdown("""
     font-weight: 600;
     color: #94a3b8;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
 }
 
 .metric-badge {
@@ -122,10 +113,10 @@ st.markdown("""
     margin-top: 0.5rem;
 }
 
-.badge-danger { background: rgba(220,38,38,0.2); color: #f87171; border: 1px solid rgba(220,38,38,0.3); }
-.badge-success { background: rgba(34,197,94,0.2); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
-.badge-info { background: rgba(59,130,246,0.2); color: #60a5fa; border: 1px solid rgba(59,130,246,0.3); }
-.badge-warning { background: rgba(245,158,11,0.2); color: #fbbf24; border: 1px solid rgba(245,158,11,0.3); }
+.badge-danger { background: rgba(220,38,38,0.2); color: #f87171; }
+.badge-success { background: rgba(34,197,94,0.2); color: #4ade80; }
+.badge-info { background: rgba(59,130,246,0.2); color: #60a5fa; }
+.badge-warning { background: rgba(245,158,11,0.2); color: #fbbf24; }
 
 .section-header {
     font-size: 1.3rem;
@@ -224,7 +215,6 @@ st.markdown("""
 .stButton > button:hover {
     background: linear-gradient(135deg, #ffed4a, #daa520);
     transform: translateY(-2px);
-    box-shadow: 0 5px 20px rgba(255,215,0,0.3);
 }
 
 .stRadio > div {
@@ -240,16 +230,6 @@ st.markdown("""
     font-size: 0.8rem;
     color: #cbd5e1;
     border: 1px solid rgba(255,215,0,0.2);
-}
-
-.stRadio > div label:hover {
-    background: rgba(255,215,0,0.1);
-    border-color: #ffd700;
-}
-
-.stDataFrame {
-    border-radius: 12px;
-    background: rgba(18, 22, 35, 0.8);
 }
 
 .footer {
@@ -273,37 +253,6 @@ st.markdown("""
     height: 1px;
     background: linear-gradient(90deg, transparent, #ffd700, transparent);
     margin: 1.5rem 0;
-}
-
-@media (max-width: 768px) {
-    .main-header { padding: 1.2rem; }
-    .main-title { font-size: 1.2rem; }
-    .metric-value { font-size: 1.4rem; }
-    .section-header { font-size: 1.1rem; }
-    .stTabs [data-baseweb="tab"] { padding: 0.4rem 0.8rem; font-size: 0.7rem; }
-}
-
-.stForm {
-    background: rgba(18, 22, 35, 0.8);
-    border-radius: 16px;
-    padding: 0.5rem;
-    border: 1px solid rgba(255,215,0,0.1);
-}
-
-.stSlider label, .stNumberInput label, .stSelectbox label {
-    color: #cbd5e1 !important;
-    font-size: 0.75rem !important;
-}
-
-.js-plotly-plot .plotly .main-svg {
-    background: transparent !important;
-}
-
-.stTextInput input {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,215,0,0.2);
-    color: white;
-    border-radius: 8px;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -372,7 +321,7 @@ with st.sidebar:
         </div>
         """, unsafe_allow_html=True)
 
-# ─── Train Model (Random Forest) ───────────────────────────────────────────────
+# ─── Train Model ───────────────────────────────────────────────────────────────
 @st.cache_data
 def train_model(test_sz, depth, n_est):
     X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=test_sz/100,
@@ -434,11 +383,8 @@ tabs = st.tabs([
     "📋 Dataset"
 ])
 
-NAVY = "#1a1f2e"
-GOLD = "#ffd700"
-RED  = "#f87171"
+RED = "#f87171"
 GREEN = "#4ade80"
-MID_BLUE = "#60a5fa"
 
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 0 – TENTANG METODE
@@ -453,8 +399,7 @@ with tabs[0]:
         <div class='info-box' style='background:rgba(255,215,0,0.05); border-left-color:#ffd700;'>
         <b>📌 Apa itu Random Forest?</b><br>
         Random Forest adalah algoritma <b>ensemble learning</b> yang menggabungkan banyak <b>Decision Tree</b> 
-        untuk menghasilkan prediksi yang lebih akurat dan stabil. Setiap pohon "memilih" data secara acak 
-        (bootstrap sampling) dan fitur secara acak, lalu hasil akhir ditentukan melalui <b>voting mayoritas</b>.
+        untuk menghasilkan prediksi yang lebih akurat dan stabil.
         </div>
         """, unsafe_allow_html=True)
         
@@ -474,68 +419,21 @@ with tabs[0]:
         <div style='background:rgba(255,215,0,0.1); border-radius:16px; padding:1rem; text-align:center; border:1px solid rgba(255,215,0,0.3)'>
             <div style='font-size:3rem'>🌲🌲🌲</div>
             <div style='font-size:1.2rem; font-weight:700; color:#ffd700; margin:0.5rem 0'>Random Forest</div>
-            <div style='font-size:0.7rem; color:#94a3b8'>Ensemble of Decision Trees</div>
             <hr style='border-color:rgba(255,215,0,0.2)'>
             <div style='text-align:left; font-size:0.75rem; color:#cbd5e1'>
             ✅ Akurasi tinggi<br>
             ✅ Tahan overfitting<br>
             ✅ Feature importance<br>
-            ✅ Handle data kategorikal<br>
-            ✅ Tidak perlu scaling
+            ✅ Handle data kategorikal
             </div>
         </div>
         """, unsafe_allow_html=True)
-    
-    st.markdown("""
-    <div class='section-header' style='margin-top:1.5rem'>📊 Kelebihan & Kekurangan</div>
-    """, unsafe_allow_html=True)
-    
-    col3, col4 = st.columns(2)
-    
-    with col3:
-        st.markdown("""
-        <div style='background:rgba(34,197,94,0.05); border-radius:12px; padding:1rem; border:1px solid rgba(34,197,94,0.2)'>
-            <div style='color:#4ade80; font-weight:700; margin-bottom:0.5rem'>✅ KELEBIHAN</div>
-            <ul style='color:#cbd5e1; font-size:0.85rem; margin:0'>
-                <li>Akurasi prediksi sangat tinggi</li>
-                <li>Tahan terhadap overfitting</li>
-                <li>Bisa menangani data dengan banyak fitur</li>
-                <li>Memberikan feature importance (fitur paling berpengaruh)</li>
-                <li>Tidak memerlukan normalisasi/scaling data</li>
-                <li>Bekerja baik dengan data kategorikal & numerik</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with col4:
-        st.markdown("""
-        <div style='background:rgba(245,158,11,0.05); border-radius:12px; padding:1rem; border:1px solid rgba(245,158,11,0.2)'>
-            <div style='color:#fbbf24; font-weight:700; margin-bottom:0.5rem'>⚠️ KEKURANGAN</div>
-            <ul style='color:#cbd5e1; font-size:0.85rem; margin:0'>
-                <li>Lebih lambat dari Decision Tree</li>
-                <li>Membutuhkan memori lebih besar</li>
-                <li>Kurang interpretable (sulit dijelaskan)</li>
-                <li>Performa bergantung pada tuning parameter</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    st.markdown("""
-    <div class='section-header' style='margin-top:1.5rem'>🎯 Mengapa Random Forest untuk Kasus Ini?</div>
-    <div class='info-box'>
-    Dataset putus sekolah memiliki <b>banyak faktor yang saling terkait</b> (ekonomi, lingkungan, pekerjaan, jarak, minat). 
-    Random Forest mampu menangkap <b>interaksi kompleks antar faktor</b> tersebut. Selain itu, fitur <b>feature importance</b>
-    dari Random Forest sangat berguna untuk mengidentifikasi <b>faktor dominan</b> penyebab putus sekolah, sehingga 
-    dapat menjadi dasar rekomendasi kebijakan yang tepat sasaran.
-    </div>
-    """, unsafe_allow_html=True)
 
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 1 – EKSPLORASI DATA
 # ══════════════════════════════════════════════════════════════════════════════
 with tabs[1]:
     st.markdown("<div class='section-header'>📊 Distribusi & Gambaran Umum Data</div>", unsafe_allow_html=True)
-    st.markdown("<div class='section-sub'>Eksplorasi awal dataset 100 responden daerah pedesaan tahun 2026</div>", unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
     with col1:
@@ -553,23 +451,20 @@ with tabs[1]:
         fig_pie.update_layout(title="Distribusi Status Putus Sekolah",
                                title_font=dict(size=15, color='white'),
                                paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
-                               height=340, margin=dict(t=50, b=10, l=10, r=10),
-                               font=dict(color='white'))
+                               height=340, font=dict(color='white'))
         st.plotly_chart(fig_pie, use_container_width=True)
-        st.caption("📌 **Penjelasan:** Dari 100 responden, terdapat {:.0f}% anak yang putus sekolah. Angka ini menunjukkan masalah serius yang perlu ditangani.".format(pct_putus))
+        st.caption("📌 **Penjelasan:** Dari 100 responden, terdapat {:.0f}% anak yang putus sekolah.".format(pct_putus))
 
     with col2:
         fig_age = px.histogram(df, x='Usia_Anak', color='Status_Putus_Sekolah',
                                 color_discrete_map={'Ya': RED, 'Tidak': GREEN},
-                                nbins=11, barmode='overlay', opacity=0.8,
-                                labels={'Usia_Anak': 'Usia (Tahun)', 'count': 'Jumlah'})
+                                nbins=11, barmode='overlay', opacity=0.8)
         fig_age.update_layout(title="Distribusi Usia Responden",
                                title_font=dict(size=15, color='white'),
                                paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
-                               height=340, margin=dict(t=50, b=10, l=10, r=10),
-                               font=dict(color='white'))
+                               height=340, font=dict(color='white'))
         st.plotly_chart(fig_age, use_container_width=True)
-        st.caption("📌 **Penjelasan:** Sebaran usia responden menunjukkan anak usia 12-15 tahun memiliki risiko putus sekolah lebih tinggi.")
+        st.caption("📌 **Penjelasan:** Anak usia 12-15 tahun memiliki risiko putus sekolah lebih tinggi.")
 
     col3, col4 = st.columns(2)
     with col3:
@@ -583,12 +478,10 @@ with tabs[1]:
                                paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
                                height=350, font=dict(color='white'))
         st.plotly_chart(fig_gen, use_container_width=True)
-        st.caption("📌 **Penjelasan:** Anak laki-laki cenderung lebih banyak putus sekolah dibanding perempuan.")
+        st.caption("📌 **Penjelasan:** Anak laki-laki cenderung lebih banyak putus sekolah.")
 
     with col4:
-        kelas_order = ["SD Kelas 1","SD Kelas 2","SD Kelas 3","SD Kelas 4","SD Kelas 5","SD Kelas 6",
-                        "SMP Kelas 7","SMP Kelas 8","SMP Kelas 9","SMA Kelas 10","SMA Kelas 11","SMA Kelas 12"]
-        kelas_count = df[df['Status_Putus_Sekolah']=='Ya']['Kelas_Terakhir'].value_counts()
+        kelas_count = df[df['Status_Putus_Sekolah']=='Ya']['Kelas_Terakhir'].value_counts().head(6)
         kelas_df = pd.DataFrame({'Kelas': kelas_count.index, 'Jumlah': kelas_count.values})
         fig_kelas = px.bar(kelas_df, x='Kelas', y='Jumlah', color='Jumlah',
                             color_continuous_scale='reds', text='Jumlah')
@@ -599,17 +492,10 @@ with tabs[1]:
                                  height=350, xaxis_tickangle=-45, coloraxis_showscale=False,
                                  font=dict(color='white'))
         st.plotly_chart(fig_kelas, use_container_width=True)
-        st.caption("📌 **Penjelasan:** Kebanyakan anak putus sekolah terjadi pada jenjang SMP (Kelas 7-9).")
-
-    st.markdown("<div class='section-header'>📋 Statistik Deskriptif</div>", unsafe_allow_html=True)
-    num_cols = ['Pendapatan_Keluarga_Bulan', 'Jarak_ke_Sekolah_km', 'Waktu_Tempuh_Menit',
-                'Jam_Kerja_Anak_Per_Minggu', 'Jumlah_Tanggungan_Keluarga', 'Usia_Anak']
-    desc = df[num_cols].describe().round(2)
-    desc.columns = [c.replace("_", " ") for c in desc.columns]
-    st.dataframe(desc.style.set_properties(**{'background-color': '#1a1f2e', 'color': 'white', 'border-color': '#ffd700'}), use_container_width=True)
+        st.caption("📌 **Penjelasan:** Kebanyakan putus sekolah terjadi pada jenjang SMP (Kelas 7-9).")
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 2 – VISUALISASI FAKTOR (DIPERBAIKI - TANPA ERROR)
+# TAB 2 – VISUALISASI FAKTOR
 # ══════════════════════════════════════════════════════════════════════════════
 with tabs[2]:
     st.markdown("<div class='section-header'>📈 Analisis Per Faktor Penentu</div>", unsafe_allow_html=True)
@@ -618,7 +504,6 @@ with tabs[2]:
                                               "🛣️ Jalan & Jarak", "💡 Minat & Motivasi"],
                            horizontal=True)
 
-    # Fungsi bar chart yang diperbaiki (tanpa parameter explanation di dalam fungsi)
     def bar_chart(col, title, order=None):
         grp = df.groupby([col, 'Status_Putus_Sekolah']).size().reset_index(name='count')
         if order:
@@ -630,8 +515,7 @@ with tabs[2]:
         fig.update_traces(textposition='outside')
         fig.update_layout(title=title, title_font=dict(size=14, color='white'),
                           paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
-                          height=350, margin=dict(t=45, b=10), xaxis_tickangle=-20,
-                          font=dict(color='white'))
+                          height=350, xaxis_tickangle=-20, font=dict(color='white'))
         st.plotly_chart(fig, use_container_width=True)
 
     if faktor_tab == "💰 Ekonomi":
@@ -644,17 +528,16 @@ with tabs[2]:
             fig_inc.update_layout(title="Pendapatan vs Status Putus",
                                    title_font=dict(size=14, color='white'),
                                    paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
-                                   height=350, yaxis_title="Rupiah/Bulan",
-                                   font=dict(color='white'))
+                                   height=350, font=dict(color='white'))
             st.plotly_chart(fig_inc, use_container_width=True)
-            st.caption("📌 **Penjelasan:** Keluarga dengan pendapatan rendah (< Rp 1 juta) memiliki risiko putus sekolah 3x lebih tinggi.")
+            st.caption("📌 **Penjelasan:** Pendapatan rendah meningkatkan risiko putus sekolah.")
         with c2:
             bar_chart('Kepemilikan_Lahan', 'Kepemilikan Lahan vs Putus Sekolah')
-            st.caption("📌 **Penjelasan:** Keluarga yang tidak memiliki lahan cenderung lebih rentan terhadap putus sekolah.")
+            st.caption("📌 **Penjelasan:** Keluarga tanpa lahan lebih rentan putus sekolah.")
         c3, c4 = st.columns(2)
         with c3:
             bar_chart('Status_Bansos', 'Penerima Bansos vs Putus Sekolah')
-            st.caption("📌 **Penjelasan:** Penerima bansos masih menunjukkan angka putus sekolah yang signifikan, perlu intervensi tambahan.")
+            st.caption("📌 **Penjelasan:** Penerima bansos masih perlu intervensi tambahan.")
         with c4:
             fig_tang = go.Figure()
             for s, color in [('Ya', RED), ('Tidak', GREEN)]:
@@ -665,39 +548,39 @@ with tabs[2]:
                                     paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
                                     height=350, font=dict(color='white'))
             st.plotly_chart(fig_tang, use_container_width=True)
-            st.caption("📌 **Penjelasan:** Semakin banyak tanggungan keluarga (>4 orang), risiko putus sekolah meningkat.")
+            st.caption("📌 **Penjelasan:** Tanggungan >4 orang meningkatkan risiko.")
 
     elif faktor_tab == "🌿 Lingkungan":
         c1, c2 = st.columns(2)
         ord_kondisi = ["Sangat Terpencil","Terpencil","Cukup Terjangkau","Terjangkau"]
         with c1:
             bar_chart('Kondisi_Lingkungan', 'Kondisi Lingkungan vs Putus Sekolah', ord_kondisi)
-            st.caption("📌 **Penjelasan:** Lingkungan terpencil berkorelasi kuat dengan putus sekolah karena akses terbatas.")
+            st.caption("📌 **Penjelasan:** Lingkungan terpencil berkorelasi dengan putus sekolah.")
         with c2:
             bar_chart('Akses_Listrik', 'Akses Listrik vs Putus Sekolah')
-            st.caption("📌 **Penjelasan:** Akses listrik yang buruk menghambat belajar di malam hari.")
+            st.caption("📌 **Penjelasan:** Akses listrik buruk menghambat belajar.")
         c3, c4 = st.columns(2)
         with c3:
             bar_chart('Akses_Internet', 'Akses Internet vs Putus Sekolah')
-            st.caption("📌 **Penjelasan:** Keterbatasan akses internet memperlebar kesenjangan pendidikan digital.")
+            st.caption("📌 **Penjelasan:** Keterbatasan akses internet memperlebar kesenjangan.")
         with c4:
             ord_fas = ["Sangat Kurang","Kurang","Cukup","Baik"]
             bar_chart('Ketersediaan_Fasilitas_Belajar', 'Fasilitas Belajar vs Putus Sekolah', ord_fas)
-            st.caption("📌 **Penjelasan:** Fasilitas belajar yang memadai menjadi faktor protektif penting.")
+            st.caption("📌 **Penjelasan:** Fasilitas memadai menjadi faktor protektif.")
 
     elif faktor_tab == "👨‍👩‍👧 Pekerjaan Orang Tua":
         c1, c2 = st.columns(2)
         with c1:
             bar_chart('Pekerjaan_Ayah', 'Pekerjaan Ayah vs Putus Sekolah')
-            st.caption("📌 **Penjelasan:** Ayah dengan pekerjaan tidak tetap meningkatkan risiko putus sekolah.")
+            st.caption("📌 **Penjelasan:** Pekerjaan ayah tidak tetap meningkatkan risiko.")
         with c2:
             bar_chart('Pekerjaan_Ibu', 'Pekerjaan Ibu vs Putus Sekolah')
-            st.caption("📌 **Penjelasan:** Ibu rumah tangga yang tidak bekerja perlu diedukasi tentang pentingnya pendidikan.")
+            st.caption("📌 **Penjelasan:** Edukasi ibu tentang pendidikan sangat penting.")
         c3, c4 = st.columns(2)
         ord_pend = ["Tidak Sekolah","SD","SMP","SMA","Diploma/S1"]
         with c3:
             bar_chart('Pendidikan_Ayah', 'Pendidikan Ayah vs Putus Sekolah', ord_pend)
-            st.caption("📌 **Penjelasan:** Pendidikan ayah yang rendah (< SMP) berkorelasi dengan putus sekolah anak.")
+            st.caption("📌 **Penjelasan:** Pendidikan ayah rendah berkorelasi dengan putus sekolah.")
         with c4:
             fig_jam = go.Figure()
             for s, color in [('Ya', RED), ('Tidak', GREEN)]:
@@ -708,7 +591,7 @@ with tabs[2]:
                                    paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
                                    height=350, font=dict(color='white'))
             st.plotly_chart(fig_jam, use_container_width=True)
-            st.caption("📌 **Penjelasan:** Anak yang bekerja >15 jam/minggu memiliki risiko putus sekolah tinggi.")
+            st.caption("📌 **Penjelasan:** Anak bekerja >15 jam/minggu berisiko tinggi.")
 
     elif faktor_tab == "🛣️ Jalan & Jarak":
         c1, c2 = st.columns(2)
@@ -722,54 +605,52 @@ with tabs[2]:
                                      paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
                                      height=350, font=dict(color='white'))
             st.plotly_chart(fig_jarak, use_container_width=True)
-            st.caption("📌 **Penjelasan:** Jarak >5 km dan waktu tempuh >60 menit meningkatkan risiko putus sekolah.")
+            st.caption("📌 **Penjelasan:** Jarak >5 km dan waktu >60 menit meningkatkan risiko.")
         with c2:
             ord_jalan = ["Jalan Tanah","Jalan Kerikil","Jalan Aspal Rusak","Jalan Aspal Baik"]
             bar_chart('Jenis_Jalan', 'Jenis Jalan vs Putus Sekolah', ord_jalan)
-            st.caption("📌 **Penjelasan:** Jalan aspal yang rusak atau jalan tanah menyulitkan akses ke sekolah.")
+            st.caption("📌 **Penjelasan:** Jalan rusak menyulitkan akses ke sekolah.")
         c3, c4 = st.columns(2)
         with c3:
             bar_chart('Ketersediaan_Transportasi', 'Transportasi vs Putus Sekolah')
-            st.caption("📌 **Penjelasan:** Ketidaktersediaan transportasi menjadi hambatan utama, terutama saat musim hujan.")
+            st.caption("📌 **Penjelasan:** Tidak ada transportasi menjadi hambatan utama.")
         with c4:
             ord_hujan = ["Tidak Bisa Dilalui","Sangat Sulit","Sulit","Bisa Dilalui"]
             bar_chart('Kondisi_Jalan_Saat_Hujan', 'Kondisi Jalan Hujan vs Putus Sekolah', ord_hujan)
-            st.caption("📌 **Penjelasan:** Jalan yang tidak bisa dilalui saat hujan menyebabkan absensi tinggi dan akhirnya putus sekolah.")
+            st.caption("📌 **Penjelasan:** Jalan tidak bisa dilalui saat hujan menyebabkan absensi.")
 
-    else:  # Minat & Motivasi
+    else:
         c1, c2 = st.columns(2)
         ord_minat = ["Sangat Rendah","Rendah","Sedang","Tinggi","Sangat Tinggi"]
         with c1:
             bar_chart('Minat_Belajar_Anak', 'Minat Belajar vs Putus Sekolah', ord_minat)
-            st.caption("📌 **Penjelasan:** Minat belajar yang rendah adalah prediktor kuat putus sekolah.")
+            st.caption("📌 **Penjelasan:** Minat rendah adalah prediktor kuat putus sekolah.")
         with c2:
             ord_dukung = ["Sangat Kurang","Kurang","Cukup","Baik","Sangat Baik"]
             bar_chart('Dukungan_Orang_Tua', 'Dukungan Orang Tua vs Putus Sekolah', ord_dukung)
-            st.caption("📌 **Penjelasan:** Dukungan orang tua yang baik menjadi faktor protektif terkuat.")
+            st.caption("📌 **Penjelasan:** Dukungan orang tua adalah faktor protektif terkuat.")
         c3, c4 = st.columns(2)
         with c3:
             bar_chart('Motivasi_Melanjutkan_Sekolah', 'Motivasi Sekolah vs Putus Sekolah', ord_minat)
-            st.caption("📌 **Penjelasan:** Motivasi rendah membuat anak lebih mudah menyerah menghadapi kesulitan.")
+            st.caption("📌 **Penjelasan:** Motivasi rendah membuat anak mudah menyerah.")
         with c4:
             ord_teman = ["Sangat Negatif","Negatif","Netral","Positif","Sangat Positif"]
             bar_chart('Pengaruh_Teman_Sebaya', 'Pengaruh Teman vs Putus Sekolah', ord_teman)
-            st.caption("📌 **Penjelasan:** Lingkungan pertemanan yang negatif mendorong anak untuk berhenti sekolah.")
+            st.caption("📌 **Penjelasan:** Lingkungan teman negatif mendorong putus sekolah.")
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 3 – HASIL MODEL
+# TAB 3 – HASIL MODEL (DIPERBAIKI - TANPA STYLER)
 # ══════════════════════════════════════════════════════════════════════════════
 with tabs[3]:
-    st.markdown(f"<div class='section-header'>🤖 Hasil Model: Random Forest</div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-header'>🤖 Hasil Model: Random Forest</div>", unsafe_allow_html=True)
     st.markdown("<div class='section-sub'>Evaluasi performa model data mining untuk klasifikasi putus sekolah</div>", unsafe_allow_html=True)
 
-    st.markdown(f"""
+    st.markdown("""
     <div class='info-box'>
     <b>🌲 Mengapa Random Forest?</b><br>
-    Random Forest dipilih karena:<br>
     • <b>Akurasi tinggi</b> - ensemble method menggabungkan banyak pohon keputusan<br>
     • <b>Tahan overfitting</b> - random sampling mengurangi overfitting<br>
-    • <b>Feature importance</b> - dapat mengidentifikasi faktor paling berpengaruh<br>
-    • <b>Handle data campuran</b> - bekerja baik dengan data numerik & kategorikal
+    • <b>Feature importance</b> - dapat mengidentifikasi faktor paling berpengaruh
     </div>
     """, unsafe_allow_html=True)
 
@@ -789,7 +670,7 @@ with tabs[3]:
                               paper_bgcolor='rgba(0,0,0,0)', height=400,
                               font=dict(color='white'))
         st.plotly_chart(fig_cm, use_container_width=True)
-        st.caption("📌 **Penjelasan:** Matriks ini menunjukkan model berhasil mengklasifikasikan data uji dengan sangat baik. Nilai diagonal (TN dan TP) menunjukkan prediksi benar.")
+        st.caption("📌 **Penjelasan:** Nilai diagonal menunjukkan prediksi benar (TN dan TP).")
 
     with col2:
         fpr, tpr, _ = roc_curve(y_te, y_prob)
@@ -806,7 +687,7 @@ with tabs[3]:
                                yaxis=dict(title='True Positive Rate', gridcolor='#334155', color='white'),
                                font=dict(color='white'))
         st.plotly_chart(fig_roc, use_container_width=True)
-        st.caption("📌 **Penjelasan:** AUC = 1.000 menunjukkan model memiliki kemampuan sempurna membedakan siswa putus vs tidak putus.")
+        st.caption("📌 **Penjelasan:** AUC = 1.000 menunjukkan klasifikasi sempurna.")
 
     st.markdown("<div class='section-header'>🔍 Feature Importance (Top 10)</div>", unsafe_allow_html=True)
     fi_top = fi.head(10).copy()
@@ -823,30 +704,37 @@ with tabs[3]:
     fig_fi.update_layout(title="10 Fitur Paling Berpengaruh terhadap Putus Sekolah",
                           title_font=dict(size=16, color='white'),
                           paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', height=450,
-                          margin=dict(l=180), xaxis=dict(title='Importance Score', gridcolor='#334155', color='white'),
+                          margin=dict(l=200), xaxis=dict(title='Importance Score', gridcolor='#334155', color='white'),
                           yaxis=dict(color='white', gridcolor='#334155'),
                           font=dict(color='white'))
     st.plotly_chart(fig_fi, use_container_width=True)
-    st.caption("📌 **Penjelasan:** Fitur dengan importance tertinggi adalah faktor paling dominan penyebab putus sekolah. Intervensi kebijakan sebaiknya fokus pada faktor-faktor ini.")
+    st.caption("📌 **Penjelasan:** Fitur dengan importance tertinggi adalah faktor paling dominan.")
 
     st.markdown("<div class='section-header'>📊 Laporan Klasifikasi</div>", unsafe_allow_html=True)
-    report = classification_report(y_te, y_pred, target_names=['Tidak Putus','Putus Sekolah'], output_dict=True)
+    report = classification_report(y_te, y_pred, target_names=['Tidak Putus', 'Putus Sekolah'], output_dict=True)
     report_df = pd.DataFrame(report).transpose()
     report_df = report_df.round(3)
     
-    styled_df = report_df.style.format("{:.3f}").set_properties(**{
-        'background-color': '#1a1f2e',
-        'color': 'white',
-        'border-color': '#ffd700'
-    }).background_gradient(cmap='viridis', subset=['precision','recall','f1-score'])
-    st.dataframe(styled_df, use_container_width=True)
+    # TAMPILKAN TANPA STYLER (HANYA DATAFRAME BIASA)
+    st.dataframe(report_df, use_container_width=True)
+    
+    # Tambahkan penjelasan metrik
+    st.markdown("""
+    <div class='info-box'>
+    <b>📖 Penjelasan Metrik Evaluasi:</b><br>
+    • <b>Precision:</b> Dari yang diprediksi putus, berapa yang benar putus = TP/(TP+FP)<br>
+    • <b>Recall:</b> Dari yang benar putus, berapa yang terdeteksi = TP/(TP+FN)<br>
+    • <b>F1-Score:</b> Rata-rata harmonik precision dan recall = 2 × (P×R)/(P+R)<br>
+    • <b>Accuracy:</b> Total prediksi benar = (TP+TN)/(Total)<br>
+    • <b>Support:</b> Jumlah sampel aktual untuk setiap kelas
+    </div>
+    """, unsafe_allow_html=True)
 
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 4 – PREDIKSI
 # ══════════════════════════════════════════════════════════════════════════════
 with tabs[4]:
     st.markdown("<div class='section-header'>🔮 Prediksi Individual</div>", unsafe_allow_html=True)
-    st.markdown("<div class='section-sub'>Masukkan data individu untuk memprediksi risiko putus sekolah menggunakan model Random Forest</div>", unsafe_allow_html=True)
 
     with st.form("prediction_form"):
         st.markdown("**📋 Data Identitas**")
@@ -928,9 +816,6 @@ with tabs[4]:
                 <div style='font-size:1rem; margin-top:0.5rem; color:#cbd5e1'>
                     Probabilitas Putus Sekolah: <b style='color:#f87171'>{prob[1]*100:.1f}%</b>
                 </div>
-                <div style='font-size:0.85rem; margin-top:0.3rem; color:#94a3b8'>
-                    Segera lakukan intervensi: beasiswa, bimbingan belajar, atau konseling motivasi
-                </div>
             </div>
             """, unsafe_allow_html=True)
         else:
@@ -939,9 +824,6 @@ with tabs[4]:
                 <div class='pred-title'>✅ AMAN — TIDAK BERISIKO</div>
                 <div style='font-size:1rem; margin-top:0.5rem; color:#cbd5e1'>
                     Probabilitas Melanjutkan Sekolah: <b style='color:#4ade80'>{prob[0]*100:.1f}%</b>
-                </div>
-                <div style='font-size:0.85rem; margin-top:0.3rem; color:#94a3b8'>
-                    Kondisi anak terindikasi dapat melanjutkan pendidikan. Tetap pantau perkembangannya.
                 </div>
             </div>
             """, unsafe_allow_html=True)
@@ -961,7 +843,7 @@ with tabs[4]:
                 'threshold': {'line': {'color': '#ffd700', 'width': 3}, 'thickness': 0.75, 'value': 50}
             }
         ))
-        fig_gauge.update_layout(paper_bgcolor='rgba(0,0,0,0)', height=280, margin=dict(t=50,b=10),
+        fig_gauge.update_layout(paper_bgcolor='rgba(0,0,0,0)', height=280,
                                  font=dict(color='white'))
         st.plotly_chart(fig_gauge, use_container_width=True)
 
@@ -993,10 +875,8 @@ with tabs[5]:
     
     st.dataframe(df_show.drop(columns=['Label']).reset_index(drop=True), use_container_width=True, height=500)
 
-    col_dl1, col_dl2 = st.columns(2)
-    with col_dl1:
-        csv_data = df_show.to_csv(index=False).encode('utf-8')
-        st.download_button("⬇️ Download CSV", csv_data, "dataset_putus_sekolah_2026.csv", "text/csv", use_container_width=True)
+    csv_data = df_show.to_csv(index=False).encode('utf-8')
+    st.download_button("⬇️ Download CSV", csv_data, "dataset_putus_sekolah_2026.csv", "text/csv", use_container_width=True)
 
 # ─── Footer ────────────────────────────────────────────────────────────────────
 st.markdown("""
