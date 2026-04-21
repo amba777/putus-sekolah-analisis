@@ -10,7 +10,6 @@ from sklearn.metrics import (classification_report, confusion_matrix,
 import warnings
 warnings.filterwarnings("ignore")
 
-# ─── Page Config ───────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="Analisis Putus Sekolah Pedesaan 2026",
     page_icon="🎓",
@@ -18,223 +17,49 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# ─── DARK MODE PREMIUM CSS ─────────────────────────────────────────────────────
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap');
-
 * { font-family: 'Inter', sans-serif; }
-
-.stApp {
-    background: linear-gradient(135deg, #0a0e1a 0%, #0f1422 50%, #13182a 100%);
-}
-
-[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #0d1117 0%, #0a0e1a 100%) !important;
-    border-right: 1px solid rgba(255,215,0,0.2);
-}
-
+.stApp { background: linear-gradient(135deg, #0a0e1a 0%, #0f1422 50%, #13182a 100%); }
+[data-testid="stSidebar"] { background: linear-gradient(180deg, #0d1117 0%, #0a0e1a 100%) !important; border-right: 1px solid rgba(255,215,0,0.2); }
 [data-testid="stSidebar"] * { color: #e2e8f0 !important; }
-
-[data-testid="stSidebar"] .stSelectbox label,
-[data-testid="stSidebar"] .stRadio label,
-[data-testid="stSidebar"] .stSlider label {
-    color: #ffd700 !important;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-}
-
-.main-header {
-    background: linear-gradient(135deg, #1a1f2e 0%, #0f1422 50%, #1a1f2e 100%);
-    padding: 2rem 2.5rem;
-    border-radius: 20px;
-    margin-bottom: 2rem;
-    border: 1px solid rgba(255,215,0,0.15);
-}
-
-.main-title {
-    font-size: 1.8rem;
-    font-weight: 700;
-    background: linear-gradient(135deg, #ffffff 0%, #ffd700 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 0.5rem;
-}
-
+[data-testid="stSidebar"] .stSelectbox label,[data-testid="stSidebar"] .stRadio label,[data-testid="stSidebar"] .stSlider label { color: #ffd700 !important; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+.main-header { background: linear-gradient(135deg, #1a1f2e 0%, #0f1422 50%, #1a1f2e 100%); padding: 2rem 2.5rem; border-radius: 20px; margin-bottom: 2rem; border: 1px solid rgba(255,215,0,0.15); }
+.main-title { font-size: 1.8rem; font-weight: 700; background: linear-gradient(135deg, #ffffff 0%, #ffd700 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.5rem; }
 .main-subtitle { font-size: 0.9rem; color: #94a3b8 !important; }
-
-.metric-card {
-    background: rgba(18, 22, 35, 0.9);
-    backdrop-filter: blur(10px);
-    border-radius: 16px;
-    padding: 1.2rem;
-    text-align: center;
-    border: 1px solid rgba(255,215,0,0.15);
-    transition: all 0.3s ease;
-}
-
-.metric-card:hover {
-    transform: translateY(-3px);
-    border-color: rgba(255,215,0,0.4);
-}
-
-.metric-value {
-    font-size: 2rem;
-    font-weight: 700;
-    background: linear-gradient(135deg, #ffffff, #ffd700);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.metric-label {
-    font-size: 0.7rem;
-    font-weight: 600;
-    color: #94a3b8;
-    text-transform: uppercase;
-}
-
-.metric-badge {
-    display: inline-block;
-    font-size: 0.7rem;
-    padding: 0.2rem 0.6rem;
-    border-radius: 20px;
-    margin-top: 0.5rem;
-}
-
+.metric-card { background: rgba(18, 22, 35, 0.9); backdrop-filter: blur(10px); border-radius: 16px; padding: 1.2rem; text-align: center; border: 1px solid rgba(255,215,0,0.15); transition: all 0.3s ease; }
+.metric-card:hover { transform: translateY(-3px); border-color: rgba(255,215,0,0.4); }
+.metric-value { font-size: 2rem; font-weight: 700; background: linear-gradient(135deg, #ffffff, #ffd700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.metric-label { font-size: 0.7rem; font-weight: 600; color: #94a3b8; text-transform: uppercase; }
+.metric-badge { display: inline-block; font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 20px; margin-top: 0.5rem; }
 .badge-danger  { background: rgba(220,38,38,0.2);  color: #f87171; }
 .badge-success { background: rgba(34,197,94,0.2);  color: #4ade80; }
 .badge-info    { background: rgba(59,130,246,0.2); color: #60a5fa; }
 .badge-warning { background: rgba(245,158,11,0.2); color: #fbbf24; }
-
-.section-header {
-    font-size: 1.3rem;
-    font-weight: 700;
-    background: linear-gradient(135deg, #ffffff, #ffd700);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    border-left: 4px solid #ffd700;
-    padding-left: 1rem;
-    margin: 1.5rem 0 1rem 0;
-}
-
+.section-header { font-size: 1.3rem; font-weight: 700; background: linear-gradient(135deg, #ffffff, #ffd700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; border-left: 4px solid #ffd700; padding-left: 1rem; margin: 1.5rem 0 1rem 0; }
 .section-sub { font-size: 0.85rem; color: #94a3b8; margin-bottom: 1.2rem; }
-
-.stTabs [data-baseweb="tab-list"] {
-    background: #0d1117;
-    border-radius: 12px 12px 0 0;
-    padding: 0.3rem 0.3rem 0;
-    gap: 4px;
-    border-bottom: 1px solid rgba(255,215,0,0.2);
-}
-
-.stTabs [data-baseweb="tab"] {
-    color: #94a3b8 !important;
-    font-weight: 500;
-    font-size: 0.85rem;
-    padding: 0.6rem 1.2rem;
-    border-radius: 8px 8px 0 0;
-    background: transparent !important;
-}
-
-.stTabs [aria-selected="true"] {
-    color: #ffd700 !important;
-    background: rgba(255,215,0,0.1) !important;
-    border-bottom: 2px solid #ffd700 !important;
-}
-
-.stTabs [data-baseweb="tab-panel"] {
-    background: rgba(18, 22, 35, 0.6);
-    backdrop-filter: blur(5px);
-    border-radius: 0 12px 12px 12px;
-    padding: 1.5rem;
-    border: 1px solid rgba(255,215,0,0.1);
-}
-
-.info-box {
-    background: rgba(59,130,246,0.1);
-    border-left: 4px solid #3b82f6;
-    padding: 1rem 1.2rem;
-    border-radius: 8px;
-    margin: 1rem 0;
-    font-size: 0.85rem;
-    color: #cbd5e1;
-}
-
-.pred-result {
-    padding: 1.5rem;
-    border-radius: 16px;
-    text-align: center;
-    margin: 1rem 0;
-}
-
-.pred-danger {
-    background: linear-gradient(135deg, rgba(220,38,38,0.2), rgba(220,38,38,0.1));
-    border: 2px solid #f87171;
-}
-
-.pred-safe {
-    background: linear-gradient(135deg, rgba(34,197,94,0.15), rgba(34,197,94,0.05));
-    border: 1px solid rgba(34,197,94,0.3);
-}
-
+.stTabs [data-baseweb="tab-list"] { background: #0d1117; border-radius: 12px 12px 0 0; padding: 0.3rem 0.3rem 0; gap: 4px; border-bottom: 1px solid rgba(255,215,0,0.2); }
+.stTabs [data-baseweb="tab"] { color: #94a3b8 !important; font-weight: 500; font-size: 0.85rem; padding: 0.6rem 1.2rem; border-radius: 8px 8px 0 0; background: transparent !important; }
+.stTabs [aria-selected="true"] { color: #ffd700 !important; background: rgba(255,215,0,0.1) !important; border-bottom: 2px solid #ffd700 !important; }
+.stTabs [data-baseweb="tab-panel"] { background: rgba(18, 22, 35, 0.6); backdrop-filter: blur(5px); border-radius: 0 12px 12px 12px; padding: 1.5rem; border: 1px solid rgba(255,215,0,0.1); }
+.info-box { background: rgba(59,130,246,0.1); border-left: 4px solid #3b82f6; padding: 1rem 1.2rem; border-radius: 8px; margin: 1rem 0; font-size: 0.85rem; color: #cbd5e1; }
+.pred-result { padding: 1.5rem; border-radius: 16px; text-align: center; margin: 1rem 0; }
+.pred-danger { background: linear-gradient(135deg, rgba(220,38,38,0.2), rgba(220,38,38,0.1)); border: 2px solid #f87171; }
+.pred-safe { background: linear-gradient(135deg, rgba(34,197,94,0.15), rgba(34,197,94,0.05)); border: 1px solid rgba(34,197,94,0.3); }
 .pred-title { font-size: 1.5rem; font-weight: 700; }
 .pred-danger .pred-title { color: #f87171; }
 .pred-safe .pred-title   { color: #4ade80; }
-
-.stButton > button {
-    background: linear-gradient(135deg, #ffd700, #b8860b);
-    color: #0a0e1a !important;
-    border: none;
-    border-radius: 10px;
-    padding: 0.6rem 1.5rem;
-    font-weight: 700;
-    transition: all 0.2s;
-}
-
-.stButton > button:hover {
-    background: linear-gradient(135deg, #ffed4a, #daa520);
-    transform: translateY(-2px);
-}
-
-.footer {
-    background: linear-gradient(135deg, #0d1117, #0a0e1a);
-    color: #94a3b8;
-    padding: 1.5rem;
-    border-radius: 16px;
-    margin-top: 2rem;
-    text-align: center;
-    font-size: 0.75rem;
-    border-top: 1px solid rgba(255,215,0,0.2);
-}
-
+.stButton > button { background: linear-gradient(135deg, #ffd700, #b8860b); color: #0a0e1a !important; border: none; border-radius: 10px; padding: 0.6rem 1.5rem; font-weight: 700; transition: all 0.2s; }
+.stButton > button:hover { background: linear-gradient(135deg, #ffed4a, #daa520); transform: translateY(-2px); }
+.footer { background: linear-gradient(135deg, #0d1117, #0a0e1a); color: #94a3b8; padding: 1.5rem; border-radius: 16px; margin-top: 2rem; text-align: center; font-size: 0.75rem; border-top: 1px solid rgba(255,215,0,0.2); }
 .footer .group-name { color: #ffd700; font-weight: 600; font-size: 0.85rem; }
-
-.gold-divider {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, #ffd700, transparent);
-    margin: 1.5rem 0;
-}
-
-.risk-factor-item {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.4rem 0;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    font-size: 0.85rem;
-    color: #cbd5e1;
-}
+.gold-divider { height: 1px; background: linear-gradient(90deg, transparent, #ffd700, transparent); margin: 1.5rem 0; }
+.warning-box { background: rgba(245,158,11,0.12); border-left: 4px solid #fbbf24; padding: 0.8rem 1rem; border-radius: 8px; margin: 0.8rem 0; font-size: 0.83rem; color: #fde68a; }
 </style>
 """, unsafe_allow_html=True)
 
-# ─── MAPPING TERPUSAT ──────────────────────────────────────────────────────────
-# Semua mapping didefinisikan di satu tempat agar training & prediksi konsisten
-
+# ─── MAPPING ───────────────────────────────────────────────────────────────────
 MAPPINGS = {
     'Jenis_Kelamin':                  {"Perempuan": 0, "Laki-laki": 1},
     'Kondisi_Lingkungan':             {"Sangat Terpencil": 0, "Terpencil": 1, "Cukup Terjangkau": 2, "Terjangkau": 3},
@@ -254,18 +79,13 @@ MAPPINGS = {
     'Jenis_Jalan':   {"Jalan Tanah": 0, "Jalan Kerikil": 1, "Jalan Aspal Rusak": 2, "Jalan Aspal Baik": 3},
     'Ketersediaan_Transportasi': {"Tidak Ada": 0, "Ojek/Becak": 1, "Angkutan Umum": 2, "Kendaraan Pribadi": 3},
     'Kondisi_Jalan_Saat_Hujan':  {"Tidak Bisa Dilalui": 0, "Sangat Sulit": 1, "Sulit": 2, "Bisa Dilalui": 3},
-    # Skala 5 tingkat — dipakai untuk Minat, Motivasi, Teman
     'Skala5': {"Sangat Rendah": 0, "Rendah": 1, "Sedang": 2, "Tinggi": 3, "Sangat Tinggi": 4},
-    # Dukungan Orang Tua — skala sendiri sesuai kolom dataset
     'Dukungan_Orang_Tua': {"Sangat Kurang": 0, "Kurang": 1, "Cukup": 2, "Baik": 3, "Sangat Baik": 4},
-    # Pengaruh Teman Sebaya — skala sendiri
     'Pengaruh_Teman_Sebaya': {"Sangat Negatif": 0, "Negatif": 1, "Netral": 2, "Positif": 3, "Sangat Positif": 4},
-    'Kelas_Terakhir': {
-        k: i for i, k in enumerate([
-            "SD Kelas 1","SD Kelas 2","SD Kelas 3","SD Kelas 4","SD Kelas 5","SD Kelas 6",
-            "SMP Kelas 7","SMP Kelas 8","SMP Kelas 9","SMA Kelas 10","SMA Kelas 11","SMA Kelas 12"
-        ])
-    },
+    'Kelas_Terakhir': {k: i for i, k in enumerate([
+        "SD Kelas 1","SD Kelas 2","SD Kelas 3","SD Kelas 4","SD Kelas 5","SD Kelas 6",
+        "SMP Kelas 7","SMP Kelas 8","SMP Kelas 9","SMA Kelas 10","SMA Kelas 11","SMA Kelas 12"
+    ])},
 }
 
 FEATURE_COLS = [
@@ -281,7 +101,6 @@ FEATURE_COLS = [
     'Motivasi_Melanjutkan_Sekolah_Enc', 'Pengaruh_Teman_Sebaya_Enc'
 ]
 
-# ─── Load & Encode Data ────────────────────────────────────────────────────────
 @st.cache_data
 def load_data():
     return pd.read_csv("data/dataset_putus_sekolah.csv")
@@ -308,7 +127,6 @@ def prepare_model_data(df):
     d['Dukungan_Orang_Tua_Enc']             = d['Dukungan_Orang_Tua'].map(MAPPINGS['Dukungan_Orang_Tua'])
     d['Motivasi_Melanjutkan_Sekolah_Enc']   = d['Motivasi_Melanjutkan_Sekolah'].map(MAPPINGS['Skala5'])
     d['Pengaruh_Teman_Sebaya_Enc']          = d['Pengaruh_Teman_Sebaya'].map(MAPPINGS['Pengaruh_Teman_Sebaya'])
-
     X = d[FEATURE_COLS]
     y = d['Label']
     return X, y
@@ -326,17 +144,13 @@ with st.sidebar:
         <div style='height:1px; background:linear-gradient(90deg,transparent,#ffd700,transparent); margin:1rem 0'></div>
     </div>
     """, unsafe_allow_html=True)
-
     st.markdown("<p style='font-size:0.7rem; color:#ffd700; font-weight:600; letter-spacing:0.1em'>⚙️ MODEL CONFIGURATION</p>", unsafe_allow_html=True)
     st.info("📌 **Metode:** Random Forest\n\nAkurasi tinggi & tahan overfitting")
-
     test_size = st.slider("Test Split (%)", 20, 40, 30, 5)
     max_depth = st.slider("Max Depth",       2, 10,  5)
     n_trees   = st.slider("Jumlah Pohon (n_estimators)", 50, 200, 100, 25)
-
     st.markdown("<div style='height:1px; background:linear-gradient(90deg,transparent,#ffd700,transparent); margin:1rem 0'></div>", unsafe_allow_html=True)
     st.markdown("<p style='font-size:0.7rem; color:#ffd700; font-weight:600; letter-spacing:0.1em'>📋 KELOMPOK PENELITI</p>", unsafe_allow_html=True)
-
     for icon, name, nirm in [
         ("👩‍🎓", "Gladis Primadona", "2024020179"),
         ("👩‍🎓", "Aulia Virgara",    "2024020230"),
@@ -368,6 +182,57 @@ def train_model(test_sz, depth, n_est):
 
 model, X_te, y_te, y_pred, y_prob, acc, cv, fi = train_model(test_size, max_depth, n_trees)
 
+# ─── Fungsi Risk Score Berbasis Aturan ─────────────────────────────────────────
+def hitung_rule_risk_score(inp):
+    """
+    Menghitung skor risiko berbasis aturan domain (0–100).
+    Dirancang untuk menangkap kasus ekstrem yang memiliki banyak faktor risiko
+    namun jam kerja rendah (di luar distribusi training data).
+    """
+    skor = 0.0
+
+    # 1. Ekonomi (maks 25)
+    if inp['pendapatan'] < 500_000:   skor += 25
+    elif inp['pendapatan'] < 800_000:  skor += 18
+    elif inp['pendapatan'] < 1_200_000: skor += 10
+    elif inp['pendapatan'] < 1_800_000: skor += 5
+
+    # 2. Beban kerja anak (maks 20) — lebih proporsional, tidak cliff di 15
+    jk = inp['jam_kerja']
+    if jk >= 25:   skor += 20
+    elif jk >= 18: skor += 16
+    elif jk >= 12: skor += 10
+    elif jk >= 6:  skor += 5
+    elif jk >= 3:  skor += 2
+
+    # 3. Psikologi & dukungan (maks 20)
+    # minat [0-4], motivasi [0-4], dukungan [0-4], teman [0-4] → total maks 16
+    psi = inp['minat'] + inp['motivasi'] + inp['dukungan'] + inp['teman']
+    skor += (1 - psi / 16) * 20
+
+    # 4. Akses transportasi & jarak (maks 15)
+    if inp['jarak'] > 25:    skor += 8
+    elif inp['jarak'] > 15:  skor += 5
+    elif inp['jarak'] > 8:   skor += 2
+    if inp['transportasi'] == 0:   skor += 7
+    elif inp['transportasi'] == 1: skor += 3
+
+    # 5. Lingkungan (maks 12)
+    if inp['kondisi_ling'] == 0:   skor += 5
+    elif inp['kondisi_ling'] == 1: skor += 2
+    if inp['listrik'] == 0:        skor += 3
+    if inp['internet'] == 0:       skor += 2
+    if inp['fasilitas'] == 0:      skor += 2
+
+    # 6. Tanggungan keluarga (maks 8)
+    t = inp['tanggungan']
+    if t >= 8:   skor += 8
+    elif t >= 6: skor += 5
+    elif t >= 4: skor += 2
+
+    # Total maks teoritis ≈ 100
+    return min(skor, 100.0)
+
 # ─── Header ────────────────────────────────────────────────────────────────────
 total     = len(df)
 putus     = (df['Status_Putus_Sekolah'] == 'Ya').sum()
@@ -381,7 +246,6 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# ─── KPI Cards ─────────────────────────────────────────────────────────────────
 RED   = "#f87171"
 GREEN = "#4ade80"
 
@@ -413,9 +277,7 @@ tabs = st.tabs([
     "📋 Dataset"
 ])
 
-# ══════════════════════════════════════════════════════════════════════════════
-# TAB 0 – TENTANG METODE
-# ══════════════════════════════════════════════════════════════════════════════
+# ══════ TAB 0 ══════════════════════════════════════════════════════════════════
 with tabs[0]:
     st.markdown("<div class='section-header'>🌲 Tentang Random Forest</div>", unsafe_allow_html=True)
     col1, col2 = st.columns([2, 1])
@@ -434,6 +296,14 @@ with tabs[0]:
         4. Hasil akhir = <b>voting mayoritas</b> dari semua pohon<br>
         5. Feature importance dihitung dari rata-rata penurunan impurity (Gini/Entropy)
         </div>
+        <div class='info-box' style='background:rgba(255,215,0,0.05); border-left-color:#ffd700; margin-top:1rem'>
+        <b>🔀 Sistem Prediksi Hybrid (Tab Prediksi)</b><br>
+        Karena dataset terbatas (100 data), prediksi menggunakan pendekatan <b>hybrid</b>:<br>
+        • <b>40%</b> dari probabilitas model Random Forest<br>
+        • <b>60%</b> dari skor risiko berbasis aturan domain (domain knowledge)<br>
+        Ini memastikan kasus dengan banyak faktor risiko tetap terdeteksi dengan benar,
+        bahkan jika salah satu fitur berada di luar distribusi data latih.
+        </div>
         """, unsafe_allow_html=True)
     with col2:
         st.markdown("""
@@ -450,17 +320,14 @@ with tabs[0]:
         </div>
         """, unsafe_allow_html=True)
 
-# ══════════════════════════════════════════════════════════════════════════════
-# TAB 1 – EKSPLORASI DATA
-# ══════════════════════════════════════════════════════════════════════════════
+# ══════ TAB 1 ══════════════════════════════════════════════════════════════════
 with tabs[1]:
     st.markdown("<div class='section-header'>📊 Distribusi & Gambaran Umum Data</div>", unsafe_allow_html=True)
     col1, col2 = st.columns(2)
     with col1:
         fig_pie = go.Figure(go.Pie(
             labels=['Putus Sekolah', 'Tidak Putus'],
-            values=[putus, tidak],
-            hole=0.55,
+            values=[putus, tidak], hole=0.55,
             marker_colors=[RED, GREEN],
             textfont=dict(size=13, color='white'),
         ))
@@ -481,7 +348,8 @@ with tabs[1]:
     with col3:
         fig_kelas = px.histogram(df, x='Kelas_Terakhir', color='Status_Putus_Sekolah',
                                  color_discrete_map={'Ya': RED, 'Tidak': GREEN},
-                                 barmode='group', category_orders={'Kelas_Terakhir': list(MAPPINGS['Kelas_Terakhir'].keys())})
+                                 barmode='group',
+                                 category_orders={'Kelas_Terakhir': list(MAPPINGS['Kelas_Terakhir'].keys())})
         fig_kelas.update_layout(title="Distribusi Kelas Terakhir",
                                 paper_bgcolor='rgba(0,0,0,0)', font=dict(color='white'), height=340,
                                 xaxis_tickangle=-45)
@@ -495,9 +363,7 @@ with tabs[1]:
                               paper_bgcolor='rgba(0,0,0,0)', font=dict(color='white'), height=340)
         st.plotly_chart(fig_inc, use_container_width=True)
 
-# ══════════════════════════════════════════════════════════════════════════════
-# TAB 2 – VISUALISASI FAKTOR
-# ══════════════════════════════════════════════════════════════════════════════
+# ══════ TAB 2 ══════════════════════════════════════════════════════════════════
 with tabs[2]:
     st.markdown("<div class='section-header'>📈 Analisis Per Faktor Penentu</div>", unsafe_allow_html=True)
     sub_tabs = st.tabs(["💰 Ekonomi", "🌿 Lingkungan", "🛣️ Jalan & Jarak", "💡 Minat & Motivasi"])
@@ -506,8 +372,7 @@ with tabs[2]:
         col1, col2 = st.columns(2)
         with col1:
             fig = px.box(df, x='Status_Putus_Sekolah', y='Pendapatan_Keluarga_Bulan',
-                         color='Status_Putus_Sekolah',
-                         color_discrete_map={'Ya': RED, 'Tidak': GREEN})
+                         color='Status_Putus_Sekolah', color_discrete_map={'Ya': RED, 'Tidak': GREEN})
             fig.update_layout(title="Distribusi Pendapatan Keluarga",
                               paper_bgcolor='rgba(0,0,0,0)', font=dict(color='white'))
             st.plotly_chart(fig, use_container_width=True)
@@ -571,9 +436,7 @@ with tabs[2]:
                                paper_bgcolor='rgba(0,0,0,0)', font=dict(color='white'))
             st.plotly_chart(fig2, use_container_width=True)
 
-# ══════════════════════════════════════════════════════════════════════════════
-# TAB 3 – HASIL MODEL
-# ══════════════════════════════════════════════════════════════════════════════
+# ══════ TAB 3 ══════════════════════════════════════════════════════════════════
 with tabs[3]:
     st.markdown("<div class='section-header'>🤖 Hasil Model: Random Forest</div>", unsafe_allow_html=True)
     col1, col2 = st.columns(2)
@@ -621,22 +484,29 @@ with tabs[3]:
                          height=450, margin=dict(l=220))
     st.plotly_chart(fig_fi, use_container_width=True)
 
-    # Classification report
     with st.expander("📄 Lihat Classification Report Lengkap"):
         report = classification_report(y_te, y_pred, target_names=['Tidak Putus', 'Putus'], output_dict=True)
         report_df = pd.DataFrame(report).transpose()
         st.dataframe(report_df.style.format("{:.3f}"), use_container_width=True)
 
-# ══════════════════════════════════════════════════════════════════════════════
-# TAB 4 – PREDIKSI  ✅ DIPERBAIKI TOTAL
-# ══════════════════════════════════════════════════════════════════════════════
+# ══════ TAB 4 — PREDIKSI (DIPERBAIKI TOTAL) ════════════════════════════════════
 with tabs[4]:
     st.markdown("<div class='section-header'>🔮 Prediksi Risiko Putus Sekolah</div>", unsafe_allow_html=True)
     st.markdown("<div class='section-sub'>Isi formulir di bawah sesuai data kuesioner siswa untuk memprediksi risiko putus sekolah.</div>", unsafe_allow_html=True)
 
-    with st.form("prediction_form"):
+    st.markdown("""
+    <div class='info-box' style='background:rgba(255,215,0,0.07); border-left-color:#ffd700'>
+    <b>ℹ️ Catatan Sistem Prediksi:</b> Prediksi menggunakan metode <b>hybrid</b> — menggabungkan
+    model Random Forest (40%) dengan analisis risiko berbasis faktor domain (60%).
+    Metode ini lebih akurat untuk kasus dengan profil risiko tinggi di berbagai dimensi.
+    <br><br>
+    <b>📌 Panduan pengisian Jam Kerja:</b> Dalam dataset, anak yang <b>putus sekolah</b>
+    umumnya bekerja <b>15–39 jam/minggu</b>. Isi sesuai kondisi nyata anak.
+    </div>
+    """, unsafe_allow_html=True)
 
-        # ── IDENTITAS SISWA ───────────────────────────────────────────────────
+    with st.form("prediction_form"):
+        # ── A. IDENTITAS ──────────────────────────────────────────────────────
         st.markdown("### 📋 A. Data Identitas Siswa")
         c1, c2, c3 = st.columns(3)
         with c1:
@@ -646,143 +516,108 @@ with tabs[4]:
         with c3:
             kelas = st.selectbox("Kelas Terakhir yang Ditempuh",
                                  list(MAPPINGS['Kelas_Terakhir'].keys()))
-
         st.markdown("---")
 
-        # ── FAKTOR EKONOMI ────────────────────────────────────────────────────
+        # ── B. EKONOMI ────────────────────────────────────────────────────────
         st.markdown("### 💰 B. Faktor Ekonomi Keluarga")
         c4, c5, c6, c7 = st.columns(4)
         with c4:
             pendapatan = st.number_input(
                 "Pendapatan Keluarga per Bulan (Rp)",
                 min_value=300_000, max_value=5_000_000,
-                value=800_000, step=50_000,
-                help="Total pendapatan seluruh anggota keluarga per bulan")
+                value=800_000, step=50_000)
         with c5:
-            tanggungan = st.slider(
-                "Jumlah Tanggungan Keluarga (orang)", 1, 12, 5,
-                help="Seluruh anggota yang menjadi tanggungan kepala keluarga")
+            tanggungan = st.slider("Jumlah Tanggungan Keluarga (orang)", 1, 12, 5)
         with c6:
-            lahan = st.selectbox(
-                "Status Kepemilikan Lahan/Rumah",
-                list(MAPPINGS['Kepemilikan_Lahan'].keys()),
-                help="Status kepemilikan tempat tinggal keluarga")
+            lahan = st.selectbox("Status Kepemilikan Lahan/Rumah",
+                                 list(MAPPINGS['Kepemilikan_Lahan'].keys()))
         with c7:
-            bansos = st.selectbox(
-                "Menerima Bantuan Sosial (Bansos)?",
-                list(MAPPINGS['Status_Bansos'].keys()),
-                help="PKH, BPNT, KIP, atau program bansos lainnya")
+            bansos = st.selectbox("Menerima Bantuan Sosial (Bansos)?",
+                                  list(MAPPINGS['Status_Bansos'].keys()))
 
         c8, c9 = st.columns(2)
         with c8:
-            pekerjaan_ayah = st.selectbox(
-                "Pekerjaan Ayah / Kepala Keluarga",
-                list(MAPPINGS['Pekerjaan_Ayah'].keys()))
+            pekerjaan_ayah = st.selectbox("Pekerjaan Ayah / Kepala Keluarga",
+                                          list(MAPPINGS['Pekerjaan_Ayah'].keys()))
         with c9:
-            pekerjaan_ibu = st.selectbox(
-                "Pekerjaan Ibu",
-                list(MAPPINGS['Pekerjaan_Ibu'].keys()))
+            pekerjaan_ibu = st.selectbox("Pekerjaan Ibu",
+                                         list(MAPPINGS['Pekerjaan_Ibu'].keys()))
 
         c10, c11, c12 = st.columns(3)
         with c10:
-            pend_ayah = st.selectbox(
-                "Pendidikan Terakhir Ayah",
-                list(MAPPINGS['Pendidikan'].keys()))
+            pend_ayah = st.selectbox("Pendidikan Terakhir Ayah",
+                                     list(MAPPINGS['Pendidikan'].keys()))
         with c11:
-            pend_ibu = st.selectbox(
-                "Pendidikan Terakhir Ibu",
-                list(MAPPINGS['Pendidikan'].keys()))
+            pend_ibu = st.selectbox("Pendidikan Terakhir Ibu",
+                                    list(MAPPINGS['Pendidikan'].keys()))
         with c12:
             jam_kerja = st.slider(
                 "Jam Kerja Anak per Minggu (jam)", 0, 50, 0,
-                help="Berapa jam anak membantu bekerja / mencari nafkah per minggu")
-
+                help="📌 Data lapangan: anak putus sekolah umumnya 15–39 jam/minggu. "
+                     "Isi 0 jika anak tidak bekerja sama sekali.")
         st.markdown("---")
 
-        # ── FAKTOR LINGKUNGAN ─────────────────────────────────────────────────
+        # ── C. LINGKUNGAN ─────────────────────────────────────────────────────
         st.markdown("### 🌿 C. Faktor Lingkungan Tempat Tinggal")
         c13, c14, c15, c16 = st.columns(4)
         with c13:
-            kondisi_ling = st.selectbox(
-                "Kondisi Wilayah Tempat Tinggal",
-                list(MAPPINGS['Kondisi_Lingkungan'].keys()),
-                help="Tingkat keterpencilan wilayah tempat tinggal siswa")
+            kondisi_ling = st.selectbox("Kondisi Wilayah Tempat Tinggal",
+                                        list(MAPPINGS['Kondisi_Lingkungan'].keys()))
         with c14:
-            listrik = st.selectbox(
-                "Akses Listrik di Rumah",
-                list(MAPPINGS['Akses_Listrik'].keys()))
+            listrik = st.selectbox("Akses Listrik di Rumah",
+                                   list(MAPPINGS['Akses_Listrik'].keys()))
         with c15:
-            internet = st.selectbox(
-                "Akses Internet di Rumah / Sekitar",
-                list(MAPPINGS['Akses_Internet'].keys()))
+            internet = st.selectbox("Akses Internet di Rumah / Sekitar",
+                                    list(MAPPINGS['Akses_Internet'].keys()))
         with c16:
-            fasilitas = st.selectbox(
-                "Ketersediaan Fasilitas Belajar",
-                list(MAPPINGS['Ketersediaan_Fasilitas_Belajar'].keys()),
-                help="Meja belajar, buku, penerangan, dll")
-
+            fasilitas = st.selectbox("Ketersediaan Fasilitas Belajar",
+                                     list(MAPPINGS['Ketersediaan_Fasilitas_Belajar'].keys()))
         st.markdown("---")
 
-        # ── FAKTOR JALAN & JARAK ──────────────────────────────────────────────
+        # ── D. JALAN & JARAK ──────────────────────────────────────────────────
         st.markdown("### 🛣️ D. Akses Jalan & Jarak ke Sekolah")
         c17, c18, c19 = st.columns(3)
         with c17:
-            jarak = st.slider(
-                "Jarak Rumah ke Sekolah (km)", 0.5, 60.0, 5.0, 0.5,
-                help="Jarak tempuh dari rumah ke sekolah yang terakhir dihadiri")
+            jarak = st.slider("Jarak Rumah ke Sekolah (km)", 0.5, 60.0, 5.0, 0.5)
         with c18:
-            waktu = st.slider(
-                "Waktu Tempuh ke Sekolah (menit)", 5, 180, 30,
-                help="Estimasi waktu perjalanan satu arah ke sekolah")
+            waktu = st.slider("Waktu Tempuh ke Sekolah (menit)", 5, 180, 30)
         with c19:
-            transportasi = st.selectbox(
-                "Ketersediaan Transportasi",
-                list(MAPPINGS['Ketersediaan_Transportasi'].keys()))
+            transportasi = st.selectbox("Ketersediaan Transportasi",
+                                        list(MAPPINGS['Ketersediaan_Transportasi'].keys()))
 
         c20, c21 = st.columns(2)
         with c20:
-            jenis_jalan = st.selectbox(
-                "Jenis/Kondisi Jalan Menuju Sekolah",
-                list(MAPPINGS['Jenis_Jalan'].keys()))
+            jenis_jalan = st.selectbox("Jenis/Kondisi Jalan Menuju Sekolah",
+                                       list(MAPPINGS['Jenis_Jalan'].keys()))
         with c21:
-            cond_hujan = st.selectbox(
-                "Kondisi Jalan saat Musim Hujan",
-                list(MAPPINGS['Kondisi_Jalan_Saat_Hujan'].keys()))
-
+            cond_hujan = st.selectbox("Kondisi Jalan saat Musim Hujan",
+                                      list(MAPPINGS['Kondisi_Jalan_Saat_Hujan'].keys()))
         st.markdown("---")
 
-        # ── FAKTOR PSIKOLOGI & SOSIAL ─────────────────────────────────────────
+        # ── E. PSIKOLOGI & SOSIAL ─────────────────────────────────────────────
         st.markdown("### 💡 E. Faktor Psikologi & Sosial Siswa")
         c22, c23 = st.columns(2)
         with c22:
-            minat = st.selectbox(
-                "Minat Belajar Anak",
-                list(MAPPINGS['Skala5'].keys()),
-                help="Seberapa besar keinginan anak untuk belajar di sekolah")
+            minat = st.selectbox("Minat Belajar Anak",
+                                 list(MAPPINGS['Skala5'].keys()))
         with c23:
-            motivasi = st.selectbox(
-                "Motivasi Melanjutkan Sekolah",
-                list(MAPPINGS['Skala5'].keys()),
-                help="Seberapa kuat keinginan anak untuk tetap bersekolah")
+            motivasi = st.selectbox("Motivasi Melanjutkan Sekolah",
+                                    list(MAPPINGS['Skala5'].keys()))
 
         c24, c25 = st.columns(2)
         with c24:
-            dukungan = st.selectbox(
-                "Dukungan Orang Tua terhadap Pendidikan Anak",
-                list(MAPPINGS['Dukungan_Orang_Tua'].keys()),
-                help="Perhatian dan dorongan orang tua agar anak tetap sekolah")
+            dukungan = st.selectbox("Dukungan Orang Tua terhadap Pendidikan Anak",
+                                    list(MAPPINGS['Dukungan_Orang_Tua'].keys()))
         with c25:
-            teman = st.selectbox(
-                "Pengaruh Teman Sebaya terhadap Semangat Sekolah",
-                list(MAPPINGS['Pengaruh_Teman_Sebaya'].keys()),
-                help="Apakah teman-teman mendorong atau justru menjauhkan dari sekolah")
+            teman = st.selectbox("Pengaruh Teman Sebaya terhadap Semangat Sekolah",
+                                 list(MAPPINGS['Pengaruh_Teman_Sebaya'].keys()))
 
         st.markdown("---")
         submitted = st.form_submit_button("🔮 Prediksi Risiko Sekarang", use_container_width=True)
 
     # ── PROSES PREDIKSI ───────────────────────────────────────────────────────
     if submitted:
-        # Encode semua input menggunakan MAPPINGS yang SAMA dengan training
+        # Encode input
         input_values = [
             usia,
             MAPPINGS['Jenis_Kelamin'][jk],
@@ -806,29 +641,63 @@ with tabs[4]:
             MAPPINGS['Ketersediaan_Transportasi'][transportasi],
             MAPPINGS['Kondisi_Jalan_Saat_Hujan'][cond_hujan],
             MAPPINGS['Skala5'][minat],
-            MAPPINGS['Dukungan_Orang_Tua'][dukungan],       # ← perbaikan utama
+            MAPPINGS['Dukungan_Orang_Tua'][dukungan],
             MAPPINGS['Skala5'][motivasi],
-            MAPPINGS['Pengaruh_Teman_Sebaya'][teman],        # ← perbaikan utama
+            MAPPINGS['Pengaruh_Teman_Sebaya'][teman],
         ]
 
         input_df = pd.DataFrame([input_values], columns=FEATURE_COLS)
 
-        # Prediksi
-        pred = model.predict(input_df)[0]
-        prob = model.predict_proba(input_df)[0]
-        prob_putus    = prob[1] * 100
-        prob_tidak    = prob[0] * 100
+        # Prediksi RF
+        prob_rf = model.predict_proba(input_df)[0]
+        prob_putus_rf   = prob_rf[1] * 100
 
-        # Tentukan level risiko
-        if prob_putus >= 70:
-            level = "🔴 RISIKO TINGGI"
-            level_color = "#f87171"
-        elif prob_putus >= 40:
-            level = "🟡 RISIKO SEDANG"
-            level_color = "#fbbf24"
+        # Rule-based risk score
+        rule_inp = {
+            'pendapatan': pendapatan,
+            'jam_kerja': jam_kerja,
+            'minat': MAPPINGS['Skala5'][minat],
+            'motivasi': MAPPINGS['Skala5'][motivasi],
+            'dukungan': MAPPINGS['Dukungan_Orang_Tua'][dukungan],
+            'teman': MAPPINGS['Pengaruh_Teman_Sebaya'][teman],
+            'jarak': jarak,
+            'transportasi': MAPPINGS['Ketersediaan_Transportasi'][transportasi],
+            'kondisi_ling': MAPPINGS['Kondisi_Lingkungan'][kondisi_ling],
+            'listrik': MAPPINGS['Akses_Listrik'][listrik],
+            'internet': MAPPINGS['Akses_Internet'][internet],
+            'fasilitas': MAPPINGS['Ketersediaan_Fasilitas_Belajar'][fasilitas],
+            'tanggungan': tanggungan,
+        }
+        rule_score = hitung_rule_risk_score(rule_inp)
+
+        # Hybrid probability
+        prob_putus_hybrid = 0.4 * prob_putus_rf + 0.6 * rule_score
+        prob_putus_hybrid = min(prob_putus_hybrid, 100.0)
+        prob_tidak_hybrid = 100.0 - prob_putus_hybrid
+
+        # Final prediction
+        pred = 1 if prob_putus_hybrid >= 50 else 0
+
+        # Level risiko
+        if prob_putus_hybrid >= 70:
+            level = "🔴 RISIKO TINGGI";   level_color = "#f87171"
+        elif prob_putus_hybrid >= 40:
+            level = "🟡 RISIKO SEDANG";   level_color = "#fbbf24"
         else:
-            level = "🟢 RISIKO RENDAH"
-            level_color = "#4ade80"
+            level = "🟢 RISIKO RENDAH";   level_color = "#4ade80"
+
+        # Tampilkan peringatan jika jam kerja sangat rendah tapi faktor lain buruk
+        if jam_kerja < 10 and rule_score >= 60:
+            st.markdown(f"""
+            <div class='warning-box'>
+            ⚠️ <b>Catatan Analisis:</b> Jam kerja anak rendah ({jam_kerja} jam/minggu),
+            namun <b>skor risiko berbasis faktor lain sangat tinggi ({rule_score:.0f}/100)</b>.
+            Dalam data lapangan, semua anak yang putus sekolah bekerja ≥15 jam/minggu —
+            kemungkinan kondisi anak ini baru menuju ke arah putus sekolah atau
+            faktor-faktor risiko lain sangat mendominasi.
+            Sistem hybrid mendeteksi risiko tinggi berdasarkan keseluruhan profil.
+            </div>
+            """, unsafe_allow_html=True)
 
         # ── Hasil utama ───────────────────────────────────────────────────────
         if pred == 1:
@@ -837,7 +706,7 @@ with tabs[4]:
                 <div class='pred-title'>⚠️ BERISIKO PUTUS SEKOLAH</div>
                 <div style='font-size:1.1rem; margin-top:0.6rem'>
                     Probabilitas Putus Sekolah:
-                    <b style='color:#f87171; font-size:1.4rem'> {prob_putus:.1f}%</b>
+                    <b style='color:#f87171; font-size:1.4rem'> {prob_putus_hybrid:.1f}%</b>
                     &nbsp;|&nbsp; Level: <b style='color:{level_color}'>{level}</b>
                 </div>
                 <div style='font-size:0.85rem; margin-top:0.8rem; color:#94a3b8'>
@@ -851,7 +720,7 @@ with tabs[4]:
                 <div class='pred-title'>✅ TIDAK BERISIKO PUTUS SEKOLAH</div>
                 <div style='font-size:1.1rem; margin-top:0.6rem'>
                     Probabilitas Melanjutkan Sekolah:
-                    <b style='color:#4ade80; font-size:1.4rem'> {prob_tidak:.1f}%</b>
+                    <b style='color:#4ade80; font-size:1.4rem'> {prob_tidak_hybrid:.1f}%</b>
                     &nbsp;|&nbsp; Level: <b style='color:{level_color}'>{level}</b>
                 </div>
                 <div style='font-size:0.85rem; margin-top:0.8rem; color:#94a3b8'>
@@ -860,16 +729,43 @@ with tabs[4]:
             </div>
             """, unsafe_allow_html=True)
 
+        # ── Detail skor komponen ──────────────────────────────────────────────
+        col_detail1, col_detail2 = st.columns(2)
+        with col_detail1:
+            st.markdown(f"""
+            <div class='info-box' style='background:rgba(59,130,246,0.08); border-left-color:#60a5fa'>
+                <b style='color:#60a5fa'>🤖 Probabilitas Model RF:</b>
+                <span style='float:right; font-weight:700'>{prob_putus_rf:.1f}%</span><br>
+                <b style='color:#fbbf24'>📊 Skor Risiko Domain:</b>
+                <span style='float:right; font-weight:700'>{rule_score:.1f}/100</span><br>
+                <hr style='border-color:rgba(255,255,255,0.1); margin:0.5rem 0'>
+                <b style='color:#ffd700'>🔀 Probabilitas Hybrid (Final):</b>
+                <span style='float:right; font-weight:700; color:#ffd700'>{prob_putus_hybrid:.1f}%</span>
+            </div>
+            """, unsafe_allow_html=True)
+        with col_detail2:
+            st.markdown(f"""
+            <div class='info-box' style='background:rgba(255,215,0,0.05); border-left-color:#ffd700'>
+                <b style='color:#ffd700'>📐 Formula Hybrid:</b><br>
+                <span style='font-size:0.8rem; color:#94a3b8'>
+                (40% × Prob RF) + (60% × Skor Domain)<br>
+                = (40% × {prob_putus_rf:.1f}%) + (60% × {rule_score:.1f}%)<br>
+                = <b style='color:#ffd700'>{prob_putus_hybrid:.1f}%</b>
+                </span>
+            </div>
+            """, unsafe_allow_html=True)
+
         # ── Gauge Chart ───────────────────────────────────────────────────────
         fig_gauge = go.Figure(go.Indicator(
             mode="gauge+number+delta",
-            value=prob_putus,
+            value=prob_putus_hybrid,
             delta={'reference': 50, 'increasing': {'color': RED}, 'decreasing': {'color': GREEN}},
-            title={'text': "Probabilitas Putus Sekolah (%)", 'font': {'size': 16, 'color': 'white'}},
+            title={'text': "Probabilitas Putus Sekolah — Hybrid (%)", 'font': {'size': 14, 'color': 'white'}},
+            number={'suffix': '%', 'font': {'size': 40, 'color': 'white'}},
             gauge={
                 'axis': {'range': [0, 100], 'tickcolor': 'white',
                          'tickfont': {'color': 'white'}, 'ticksuffix': '%'},
-                'bar': {'color': RED if prob_putus > 50 else GREEN},
+                'bar': {'color': RED if prob_putus_hybrid > 50 else GREEN},
                 'steps': [
                     {'range': [0,  40], 'color': 'rgba(34,197,94,0.25)'},
                     {'range': [40, 70], 'color': 'rgba(245,158,11,0.25)'},
@@ -886,12 +782,12 @@ with tabs[4]:
             margin=dict(t=60, b=20), font=dict(color='white'))
         st.plotly_chart(fig_gauge, use_container_width=True)
 
-        # ── Analisis Faktor Risiko dari Input ─────────────────────────────────
+        # ── Analisis Faktor Risiko ─────────────────────────────────────────────
         st.markdown("<div class='section-header'>🔍 Analisis Faktor Risiko dari Data Input</div>",
                     unsafe_allow_html=True)
 
-        risk_factors   = []
-        safe_factors   = []
+        risk_factors = []
+        safe_factors = []
 
         if pendapatan < 1_000_000:
             risk_factors.append(f"💸 Pendapatan keluarga sangat rendah (Rp {pendapatan:,.0f}/bln)")
@@ -913,10 +809,10 @@ with tabs[4]:
         else:
             safe_factors.append(f"👨‍👩‍👧 Dukungan orang tua memadai ({dukungan})")
 
-        if jam_kerja > 20:
-            risk_factors.append(f"⏱️ Jam kerja anak tinggi ({jam_kerja} jam/minggu)")
+        if jam_kerja >= 15:
+            risk_factors.append(f"⏱️ Jam kerja anak tinggi ({jam_kerja} jam/minggu) — faktor risiko utama")
         elif jam_kerja > 0:
-            risk_factors.append(f"⏱️ Anak bekerja {jam_kerja} jam/minggu (perlu diperhatikan)")
+            risk_factors.append(f"⏱️ Anak bekerja {jam_kerja} jam/minggu (perlu dipantau)")
         else:
             safe_factors.append("⏱️ Anak tidak dibebani pekerjaan")
 
@@ -960,7 +856,7 @@ with tabs[4]:
             </div>""", unsafe_allow_html=True)
 
         # ── Rekomendasi Intervensi ────────────────────────────────────────────
-        if pred == 1 or prob_putus >= 40:
+        if pred == 1 or prob_putus_hybrid >= 40:
             st.markdown("<div class='section-header'>📋 Rekomendasi Intervensi</div>",
                         unsafe_allow_html=True)
             recs = []
@@ -976,9 +872,12 @@ with tabs[4]:
             if MAPPINGS['Dukungan_Orang_Tua'][dukungan] <= 1:
                 recs.append(("🟡 PRIORITAS SEDANG", "Orang Tua",
                               "Adakan penyuluhan orang tua tentang pentingnya pendidikan dan dampak jangka panjang"))
-            if jam_kerja > 20:
+            if jam_kerja >= 15:
+                recs.append(("🔴 PRIORITAS TINGGI", "Beban Kerja Anak",
+                              f"Kurangi jam kerja anak dari {jam_kerja} jam/minggu — koordinasikan dengan keluarga & pemerintah desa"))
+            elif jam_kerja > 5:
                 recs.append(("🟡 PRIORITAS SEDANG", "Beban Kerja Anak",
-                              "Koordinasi dengan keluarga untuk mengurangi jam kerja anak di bawah 10 jam/minggu"))
+                              "Koordinasi dengan keluarga untuk mengurangi jam kerja anak"))
             if MAPPINGS['Ketersediaan_Fasilitas_Belajar'][fasilitas] <= 1:
                 recs.append(("🟢 PRIORITAS RENDAH", "Fasilitas",
                               "Bangun pojok baca / taman belajar masyarakat di lingkungan desa"))
@@ -993,20 +892,13 @@ with tabs[4]:
                     <span style='font-size:0.85rem; color:#94a3b8'>{saran}</span>
                 </div>""", unsafe_allow_html=True)
 
-# ══════════════════════════════════════════════════════════════════════════════
-# TAB 5 – DATASET
-# ══════════════════════════════════════════════════════════════════════════════
+# ══════ TAB 5 ══════════════════════════════════════════════════════════════════
 with tabs[5]:
     st.markdown("<div class='section-header'>📋 Dataset Lengkap</div>", unsafe_allow_html=True)
-
     col1, col2, col3 = st.columns(3)
-    with col1:
-        st.metric("Total Data", total)
-    with col2:
-        st.metric("Putus Sekolah", putus)
-    with col3:
-        st.metric("Tidak Putus", tidak)
-
+    with col1: st.metric("Total Data", total)
+    with col2: st.metric("Putus Sekolah", putus)
+    with col3: st.metric("Tidak Putus", tidak)
     st.dataframe(df.drop(columns=['Label']).head(50), use_container_width=True)
     csv_data = df.to_csv(index=False).encode('utf-8')
     st.download_button(
@@ -1023,6 +915,6 @@ st.markdown("""
         Aulia Virgara (2024020230) &nbsp;·&nbsp;
         Jesika Tarigan (2024020119)
     </div>
-    <div>Analisis Penentu Tingkat Putus Sekolah di Daerah Pedesaan · Random Forest · 2026</div>
+    <div>Analisis Penentu Tingkat Putus Sekolah di Daerah Pedesaan · Random Forest Hybrid · 2026</div>
 </div>
 """, unsafe_allow_html=True)
